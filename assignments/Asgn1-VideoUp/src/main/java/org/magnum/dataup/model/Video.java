@@ -19,6 +19,11 @@ package org.magnum.dataup.model;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fluentinterface.ReflectionBuilder;
@@ -48,7 +53,7 @@ import com.fluentinterface.builder.Builder;
     \:\__\        \::/  /       \::/  /        /:/  /     \:\__\          \:\__\        
      \/__/         \/__/         \/__/         \/__/       \/__/           \/__/        
  */
-
+@Entity
 public class Video {
 
 	public static VideoBuilder create() {
@@ -62,6 +67,8 @@ public class Video {
 		public VideoBuilder withContentType(String contentType);
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String title;
 	private long duration;

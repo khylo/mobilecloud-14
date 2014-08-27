@@ -79,6 +79,10 @@ public class VideoFileManager {
 		return Files.exists(source);
 	}
 	
+	public String getDir(){
+		return targetDir_.toString();
+	}
+	
 	/**
 	 * This method copies the binary data for the given video to
 	 * the provided output stream. The caller is responsible for
@@ -106,11 +110,12 @@ public class VideoFileManager {
 	 * @param videoData
 	 * @throws IOException
 	 */
-	public void saveVideoData(Video v, InputStream videoData) throws IOException{
+	public String saveVideoData(Video v, InputStream videoData) throws IOException{
 		assert(videoData != null);
 		
 		Path target = getVideoPath(v);
 		Files.copy(videoData, target, StandardCopyOption.REPLACE_EXISTING);
+		return target.toString();
 	}
 	
 }

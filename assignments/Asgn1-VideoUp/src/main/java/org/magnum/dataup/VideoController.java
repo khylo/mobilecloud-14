@@ -17,10 +17,36 @@
  */
 package org.magnum.dataup;
 
-import org.springframework.stereotype.Controller;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Collection;
+import java.util.List;
 
-@Controller
-public class AnEmptyController {
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
+
+import org.magnum.dataup.model.Video;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import retrofit.client.Response;
+
+@RestController
+public class VideoController {
+	
+	@Autowired
+	VideoService videoService;
+	
+	@PostConstruct
+	public void init(){
+		
+	}
 
 	/**
 	 * You will need to create one or more Spring controllers to fulfill the
@@ -38,5 +64,26 @@ public class AnEmptyController {
                                                                                                                                                                                                                                                                         
 	 * 
 	 */
+	@RequestMapping(method=RequestMethod.GET, value=VideoSvcApi.VIDEO_SVC_PATH)
+	@ResponseBody
+	public Collection<Video> getVideos(){
+		return videoService.getVideoList();
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value=VideoSvcApi.VIDEO_SVC_PATH)
+	@ResponseBody
+	public Video addVideo(Video v){
+		return videoService.addVideo(v);
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value=VideoSvcApi.VIDEO_DATA_PATH)
+	public void getVideoData(@PathVariable("id") long id, HttpServletResponse resp) throws IOException{
+		videoService.getData(id, resp.getOutputStream());		
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value=VideoSvcApi.VIDEO_DATA_PATH)
+	public void setVideoData(@PathVariable("id") long id, MultipartFile videoData) throws IOException {
+		videoService.setVideoData(id, videoData.getInputStream());
+ 	}
 	
 }
