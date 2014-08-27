@@ -19,15 +19,20 @@ package org.magnum.dataup;
 
 import javax.servlet.MultipartConfigElement;
 
+import org.magnum.dataup.model.VideoRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.MultiPartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 // This annotation tells Spring to auto-wire your application
 @EnableAutoConfiguration
+//Tell Spring to automatically create a JPA implementation of our
+//VideoRepository
+@EnableJpaRepositories(basePackageClasses = VideoRepository.class)
 // This annotation tells Spring to look for controllers, etc.
 // starting in the current package
 @ComponentScan

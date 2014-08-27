@@ -59,18 +59,23 @@ import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.magnum.dataup.model.Video;
 import org.magnum.dataup.model.VideoStatus;
 import org.magnum.dataup.model.VideoStatus.VideoState;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 
+@RunWith( SpringJUnit4ClassRunner.class )
+@ContextConfiguration(classes=Application.class)
 public class AutoGradingTest {
 
-	private static final String SERVER = "http://localhost:8080";
+	private static final String SERVER = "http://localhost:8765";
 
 	private File testVideoData = new File(
 			"src/test/resources/test.mp4");
