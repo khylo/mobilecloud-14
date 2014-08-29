@@ -87,7 +87,7 @@ public class AutoGrading {
 
 		// Ensure that the server is running and accessible on port 8080
 		try {
-			URL url = new URL("http://localhost:8765");
+			URL url = new URL("http://localhost:8080");
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
 			connection.setRequestMethod(GET);

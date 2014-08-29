@@ -51,12 +51,12 @@ public class VideoService {
 		if(it==null)
 			return null;
 		else
-			return Lists.newArrayList();
+			return Lists.newArrayList(it);
 	}
 
 	public Video addVideo(Video v) {
 		 Video ret = videoRepo.save(v);
-		 ret.setDataUrl("localhost:8765");//+Utils.getPort());
+		 ret.setDataUrl("localhost:8080");//+Utils.getPort());
 		 log.info("Added new video "+Utils.toString(v));
 		 return ret;
 	}
@@ -66,7 +66,7 @@ public class VideoService {
 		if(v==null)
 			throw new ResourceNotFoundException("Cannot find video id:"+id);
 		String path = videoDataMgr.saveVideoData(v, videoData);
-		v.setDataUrl("localhost:"+Utils.getPort()+"/"+path);
+		v.setDataUrl("localhost:8080"+/*Utils.getPort()+*/"/"+path);
 		return new VideoStatus(VideoState.READY);
 	}
 
