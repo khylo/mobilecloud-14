@@ -26,11 +26,15 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 
 import org.magnum.dataup.model.Video;
+import org.magnum.dataup.model.VideoStatus;
+import org.magnum.dataup.model.VideoStatus.VideoState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,7 +76,7 @@ public class VideoController {
 	
 	@RequestMapping(method=RequestMethod.POST, value=VideoSvcApi.VIDEO_SVC_PATH)
 	@ResponseBody
-	public Video addVideo(Video v){
+	public Video addVideo(@RequestBody Video v){
 		return videoService.addVideo(v);
 	}
 	
@@ -82,8 +86,12 @@ public class VideoController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value=VideoSvcApi.VIDEO_DATA_PATH)
-	public void setVideoData(@PathVariable("id") long id, MultipartFile videoData) throws IOException {
+	@ResponseBody
+	public VideoStatus setVideoData(@PathVariable("id") long id, @RequestParam("data") MultipartFile videoData) throws IOException {
+		if(videoData==null)
+			throw new IllegalArgumentException("Null videoData not valid");
 		videoService.setVideoData(id, videoData.getInputStream());
+		return new VideoStatus(VideoState.READY);
  	}
 	
 }

@@ -75,7 +75,7 @@ import retrofit.mime.TypedFile;
 @ContextConfiguration(classes=Application.class)
 public class AutoGradingTest {
 
-	private static final String SERVER = "http://localhost:8765";
+	private static final String SERVER = "http://localhost:8080";
 
 	private File testVideoData = new File(
 			"src/test/resources/test.mp4");
