@@ -1,9 +1,14 @@
 package org.magnum.mobilecloud.video.repository;
 
+import java.util.Collection;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.google.common.base.Objects;
 
@@ -32,7 +37,9 @@ public class Video {
 	private String url;
 	private long duration;
 	private long likes;
-	
+	@ElementCollection
+	private Collection<String> userLikes;
+
 	public Video() {
 	}
 
@@ -82,6 +89,33 @@ public class Video {
 	
 	public void setLikes(long likes) {
 		this.likes = likes;
+	}
+	
+	
+	public Collection<String> getUserLikes() {
+		return userLikes;
+	}
+
+	public void setUserLikes(Collection<String> userLikes) {
+		this.userLikes = userLikes;
+	}
+	
+	public boolean userLikes(UserDetails u){
+		return userLikes.contains(u.getUsername());
+	}
+	
+	public void like(UserDetails u){
+		if(userLikes(u))
+			return;
+		likes++;
+		userLikes.add(u.getUsername());		
+	}
+	
+	public void unlike(UserDetails u){
+		if(userLikes(u)){
+			likes--;
+			userLikes.remove(u.getUsername());
+		}
 	}
 	
 	/**
